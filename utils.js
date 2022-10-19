@@ -13,6 +13,22 @@ exports.generateRandomString = (length) => {
 }
 
 
+exports.transformMsTimestampToTime = (msTimestamp) => {
+
+    var currentDate = new Date(msTimestamp);
+    // Hours part from the timestamp
+    var hours = currentDate.getHours();
+    // Minutes part from the timestamp
+    var minutes = "0" + currentDate.getMinutes();
+    // Seconds part from the timestamp
+    var seconds = "0" + currentDate.getSeconds();
+
+    // Will display time in 10:30:23 format
+    var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
+
+    return formattedTime;
+}
+
 
 const mailer = nodemailer.createTransport({
     port: 465,               // true for 465, false for other ports
