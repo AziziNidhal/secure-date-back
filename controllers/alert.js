@@ -7,9 +7,9 @@ const { generateRandomString } = require("../utils");
 
 
 exports.createAlert = async (req, res, next) => {
-    const mid = req.query.mid;
-    const long = req.query.long;
-    const lat = req.query.lat;
+    const mid = req.body.mid;
+    const long = req.body.long;
+    const lat = req.body.lat;
 
     const generatedTracabilityCode = generateRandomString(100);
 
@@ -17,6 +17,8 @@ exports.createAlert = async (req, res, next) => {
 
 
     const existantSubsctiber = await Subscriber.findOne({ mid: mid });
+
+
 
     if (existantSubsctiber) {
         try {
@@ -51,9 +53,9 @@ exports.createAlert = async (req, res, next) => {
 
 
 exports.pushGeoloc = async (req, res, next) => {
-    const tracabilityCode = req.query.tracabilityCode;
-    const long = req.query.long;
-    const lat = req.query.lat;
+    const tracabilityCode = req.body.tracabilityCode;
+    const long = req.body.long;
+    const lat = req.body.lat;
 
     const now = Date.now();
 
@@ -113,7 +115,7 @@ exports.getGeoPosList = async (req,res,next) => {
 
 
 exports.pushImage = async (req, res, next) => {
-    const tracabilityCode = req.query.tracabilityCode;
+    const tracabilityCode = req.body.tracabilityCode;
 
     let imageUrl;
     if (!req.file) {

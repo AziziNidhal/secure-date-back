@@ -78,15 +78,15 @@ exports.subscribeUser = async (req, res, next) => {
         return;
     }
 
-    const mid = req.query.mid;
-    const fullname = req.query.fullname;
-    const emergencyText = req.query.emergencyText;
+    const mid = req.body.mid;
+    const fullname = req.body.fullname;
+    const emergencyText = req.body.emergencyText;
 
-    const saverFullname = req.query.saverFullname;
+    const saverFullname = req.body.saverFullname;
 
-    const saverEmail = req.query.saverEmail;
+    const saverEmail = req.body.saverEmail;
 
-    const password = req.query.password;
+    const password = req.body.password;
 
     const existantSubsctiber = await Subscriber.findOne({ mid: mid });
 
