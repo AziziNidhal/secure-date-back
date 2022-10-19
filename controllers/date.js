@@ -30,7 +30,7 @@ exports.planDate = async (req, res, next) => {
 
             const savedDate = date.save();
 
-            const msg = `without any action, your saver will be notified at ${transformMsTimestampToTime(haveToAlert)}`
+            const msg = `without any action, your saver will be notified after ${interval} seconds`;
             res.status(200).json({ message: "OK",msg:msg });
 
         } catch (err) {
