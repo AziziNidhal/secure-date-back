@@ -13,6 +13,9 @@ const alertRoutes = require("./routes/alert");
 
 const app = express();
 
+const PORT = process.env.PORT || 9080;
+
+
 app.set('view engine', 'ejs');
 
 const fileStorage = multer.diskStorage({
@@ -81,7 +84,7 @@ mongoose
     "mongodb+srv://supercode2050:supercode2050@cluster0.bmteaan.mongodb.net/?retryWrites=true&w=majority"
   )
   .then((result) => {
-    app.listen(9080);
+    app.listen(PORT);
   })
   .catch((err) => {
     const error = new Error("Cant Connect to the database x(");
