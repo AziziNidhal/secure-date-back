@@ -77,8 +77,6 @@ app.use((error, req, res, next) => {
 });
 
 
-app.listen(8080);
-
 mongoose
   .connect(
     "mongodb+srv://supercode2050:supercode2050@cluster0.bmteaan.mongodb.net/?retryWrites=true&w=majority"
