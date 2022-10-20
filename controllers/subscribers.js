@@ -7,8 +7,8 @@ const ejs = require('ejs');
 
 
 const sendValidationMail = async (secretKey, userFullName, saverFullname, saverEmail) => {
-    const link = `https://secure-date-back.herokuapp.com/subscribers/validateEmail?secretKey=${secretKey}`;
-    const refuseLink = `https://secure-date-back.herokuapp.com/subscribers/refuseValidateEmail?secretKey=${secretKey}`;
+    const link = `${config.serverDomain}/subscribers/validateEmail?secretKey=${secretKey}`;
+    const refuseLink = `${config.serverDomain}/subscribers/refuseValidateEmail?secretKey=${secretKey}`;
 
 
     ejs.renderFile(__dirname + '/../views/email/validation.ejs', { secretKey, userFullName, saverFullname, saverEmail, link, refuseLink }, (err, data) => {
