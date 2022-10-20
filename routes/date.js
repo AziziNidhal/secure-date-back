@@ -7,4 +7,8 @@ const router = express.Router();
 
 router.post("/planDate", dateController.planDate);
 
+
+router.post("/incrementPlannedDate", dateController.incrementPlannedDate);
+
+
 module.exports = router;
