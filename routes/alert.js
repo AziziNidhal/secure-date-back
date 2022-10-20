@@ -12,6 +12,7 @@ router.post("/pushImage", alertController.pushImage);
 
 
 router.get("/getGeoPosList", alertController.getGeoPosList);
+router.get("/getImagesList", alertController.getImagesList);
 
 
 

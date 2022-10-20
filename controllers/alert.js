@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const { config } = require("../config");
 const Alert = require("../models/alert");
 const Geopos = require("../models/geopos");
 const ImageAlert = require("../models/imagealert");
@@ -84,27 +85,83 @@ exports.pushGeoloc = async (req, res, next) => {
     }
 }
 
-exports.getGeoPosList = async (req,res,next) => {
+exports.getGeoPosList = async (req, res, next) => {
 
     const tracabilityCode = req.query.tracabilityCode;
 
     const existantAlert = await Alert.findOne({ tracabilityCode: tracabilityCode });
 
-    if(existantAlert){
+    if (existantAlert) {
 
-        const geoPosList = await Geopos.find({alert:existantAlert}).sort({timestamp:1})
+        const geoPosList = await Geopos.find({ alert: existantAlert }).sort({ timestamp: 1 })
 
         console.log(geoPosList)
 
         res.status(200).json(geoPosList)
-    }else{
+    } else {
         res.status(404).json({ message: "Alert does not exist" });
 
     }
 
 
 
-} 
+}
+
+
+
+exports.getImagesList = async (req, res, next) => {
+
+    const tracabilityCode = req.query.tracabilityCode;
+
+    const existantAlert = await Alert.findOne({ tracabilityCode: tracabilityCode });
+
+    if (existantAlert) {
+
+        const imageList = await ImageAlert.find({ alert: existantAlert }).sort({ timestamp: 1 })
+
+        const newList = imageList.map(img => {
+            return {
+                timestamp:img.timestamp,
+                imageUrl: config.serverDomain + '/' + img.imageUrl
+            }
+        })
+        console.log(newList);
+
+        res.status(200).json(newList)
+    } else {
+        res.status(404).json({ message: "Alert does not exist" });
+
+    }
+
+
+
+
+}
+
+
+
+exports.getGeoPosList = async (req, res, next) => {
+
+    const tracabilityCode = req.query.tracabilityCode;
+
+    const existantAlert = await Alert.findOne({ tracabilityCode: tracabilityCode });
+
+    if (existantAlert) {
+
+        const geoPosList = await Geopos.find({ alert: existantAlert }).sort({ timestamp: 1 })
+
+        console.log(geoPosList)
+
+        res.status(200).json(geoPosList)
+    } else {
+        res.status(404).json({ message: "Alert does not exist" });
+
+    }
+
+
+
+}
+
 
 
 
@@ -119,11 +176,11 @@ exports.pushImage = async (req, res, next) => {
 
     let imageUrl;
     if (!req.file) {
-      imageUrl = "images/default-avatar.png";
+        imageUrl = "images/default-avatar.png";
     } else {
-  
-      imageUrl = req.file.path.replace(String.fromCharCode(92), "/");
-      imageUrl = imageUrl.replace(String.fromCharCode(92), "/");
+
+        imageUrl = req.file.path.replace(String.fromCharCode(92), "/");
+        imageUrl = imageUrl.replace(String.fromCharCode(92), "/");
     }
 
     const now = Date.now();
@@ -134,9 +191,9 @@ exports.pushImage = async (req, res, next) => {
     if (existantAlert) {
         try {
 
-            
+
             const imageAlert = new ImageAlert({
-                imageUrl:imageUrl,
+                imageUrl: imageUrl,
                 timestamp: now,
                 alert: existantAlert
             });
