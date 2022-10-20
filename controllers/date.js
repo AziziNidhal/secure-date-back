@@ -6,6 +6,43 @@ const { generateRandomString, transformMsTimestampToTime } = require("../utils")
 
 
 
+
+exports.endPlannedDate = async (req, res, next) => {
+
+    const dateIdentifier = req.body.dateIdentifier;
+
+
+    const existantPlanedDate = await DatePlan.findOne({ dateIdentifier: dateIdentifier });
+
+
+    if (existantPlanedDate) {
+
+        try {
+
+
+            const deleted = await existantPlanedDate.deleteOne({ dateIdentifier: dateIdentifier });
+
+
+            res.status(200).json({ message: 'ok' })
+        } catch (err) {
+            res.status(500).json({ message: 'ko' })
+
+        }
+
+
+    } else {
+
+        res.status(404).json({ message: "Date does not exist" });
+
+    }
+
+}
+
+
+
+
+
+
 exports.incrementPlannedDate = async (req, res, next) => {
 
     const dateIdentifier = req.body.dateIdentifier;

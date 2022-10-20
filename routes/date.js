@@ -9,6 +9,6 @@ router.post("/planDate", dateController.planDate);
 
 
 router.post("/incrementPlannedDate", dateController.incrementPlannedDate);
-
+router.post("/endPlannedDate", dateController.endPlannedDate);
 
 module.exports = router;
