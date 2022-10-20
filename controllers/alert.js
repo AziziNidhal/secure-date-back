@@ -1,3 +1,7 @@
+const ejs = require('ejs');
+const nodemailer = require("nodemailer");
+
+
 const { validationResult } = require("express-validator");
 const { config } = require("../config");
 const Alert = require("../models/alert");
@@ -5,6 +9,9 @@ const Geopos = require("../models/geopos");
 const ImageAlert = require("../models/imagealert");
 const Subscriber = require("../models/subscriber");
 const { generateRandomString } = require("../utils");
+const { mailTransporter } = require("../utils");
+
+
 
 
 exports.createAlert = async (req, res, next) => {
@@ -40,6 +47,56 @@ exports.createAlert = async (req, res, next) => {
             });
 
             const savedGeoPos = await geoPos.save();
+
+
+            // SEND EMAIL
+
+
+
+      /* *************** SEND EMAIL TO THE SAVER***************/
+            console.log(generatedTracabilityCode);
+        const link = config.frontDomain + "?secretCode=" + generatedTracabilityCode;
+
+            const saverEmail = existantSubsctiber.saverEmail;
+
+            console.log(existantSubsctiber)
+
+
+            const userFullName = existantSubsctiber.fullname;
+
+            console.log('notify',saverEmail);
+      ejs.renderFile(__dirname + '/../views/email/alertSaver.ejs', { link,userFullName }, (err, data) => {
+
+
+
+        if (err) {
+          console.log(__dirname + '/../views/email/alertSaver.ejs');
+
+          console.log(err);
+        } else {
+          const mailData = {
+            from: 'securedatemailerbeforedemo@gmail.com',  // sender address
+            to: saverEmail,   // list of receivers
+            subject: `Prenez des nouvelles de ${userFullName} `,
+            html: data
+          };
+
+          mailTransporter.sendMail(mailData, (error, info) => {
+            if (error) {
+              return console.log(error);
+            }
+            console.log('Message sent: %s', info.messageId);
+          });
+        }
+      });
+
+
+
+      /* *************** SEND EMAIL TO THE SAVER***************/
+
+
+
+
             res.status(200).json({ message: "OK", tracabilityCode: generatedTracabilityCode });
 
         } catch (err) {
