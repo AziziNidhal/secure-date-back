@@ -7,8 +7,8 @@ const ejs = require('ejs');
 
 
 const sendValidationMail = async (secretKey, userFullName, saverFullname, saverEmail) => {
-    const link = `http://${config.serverIpAdress}:${config.serverPort}/subscribers/validateEmail?secretKey=${secretKey}`;
-    const refuseLink = `http://${config.serverIpAdress}:${config.serverPort}/subscribers/refuseValidateEmail?secretKey=${secretKey}`;
+    const link = `https://secure-date-back.herokuapp.com/subscribers/validateEmail?secretKey=${secretKey}`;
+    const refuseLink = `https://secure-date-back.herokuapp.com/subscribers/refuseValidateEmail?secretKey=${secretKey}`;
 
 
     ejs.renderFile(__dirname + '/../views/email/validation.ejs', { secretKey, userFullName, saverFullname, saverEmail, link, refuseLink }, (err, data) => {
@@ -40,7 +40,7 @@ const sendValidationMail = async (secretKey, userFullName, saverFullname, saverE
 }
 
 
-exports.checkSubscription = async (req,res,next) => {
+exports.checkSubscription = async (req, res, next) => {
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -56,9 +56,9 @@ exports.checkSubscription = async (req,res,next) => {
 
     const existantSubsctiber = await Subscriber.findOne({ mid: mid });
 
-    if(existantSubsctiber){
+    if (existantSubsctiber) {
         res.status(200).json(existantSubsctiber)
-    }else{
+    } else {
         res.status(404).json(null)
     }
 
